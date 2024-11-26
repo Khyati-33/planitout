@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Dynamic Pricing Model</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        #container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        .slider-container {
+            margin: 20px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="range"] {
+            width: 100%;
+        }
+
+        #price-display {
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: #2196F3;
+        }
+
+        #loading {
+            color: #888;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>AI-Powered Dynamic Pricing Model for Travel Packages</h1>
+
+        <!-- Slider for Season -->
+        <div class="slider-container">
+            <label for="season">Season (1 - Low, 10 - High):</label>
+            <input type="range" id="season" min="1" max="10" value="5">
+            <span id="season-value">5</span>
+        </div>
+
+        <!-- Slider for Demand -->
+        <div class="slider-container">
+            <label for="demand">Demand (1 - Low, 10 - High):</label>
+            <input type="range" id="demand" min="1" max="10" value="5">
+            <span id="demand-value">5</span>
+        </div>
+
+        <!-- Display AI-predicted dynamic price -->
+        <div id="price-display">
+            Estimated Price: <span id="loading">Calculating...</span>
+        </div>
+    </div>
+
+    <script>
+        // HTML Elements
+        const seasonSlider = document.getElementById('season');
+        const demandSlider = document.getElementById('demand');
+        const seasonValue = document.getElementById('season-value');
+        const demandValue = document.getElementById('demand-value');
+        const priceDisplay = document.getElementById('price-display');
+
+        // Function to simulate an AI-powered API call for pricing prediction
+        function fetchAIPredictedPrice(season, demand) {
+            // Simulate an API delay using Promise
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    // Mock AI prediction algorithm (In a real scenario, this would be fetched from a backend ML model)
+                    const aiPrice = 500 + (season * 25) + (demand * 35) + (Math.random() * 100); // Adding randomness
+                    resolve(aiPrice.toFixed(2));
+                }, 1000); // Simulating network delay
+            });
+        }
+
+        // Function to update the displayed price
+        async function updatePrice() {
+            const season = parseInt(seasonSlider.value);
+            const demand = parseInt(demandSlider.value);
+
+            // Update displayed values
+            seasonValue.innerText = season;
+            demandValue.innerText = demand;
+
+            // Show loading indicator
+            priceDisplay.innerHTML = 'Estimated Price: <span id="loading">Calculating...</span>';
+
+            // Fetch AI-predicted price
+            const aiPredictedPrice = await fetchAIPredictedPrice(season, demand);
+
+            // Update displayed price
+            priceDisplay.innerHTML = `Estimated Price: $${aiPredictedPrice}`;
+        }
+
+        // Event listeners for sliders
+        seasonSlider.addEventListener('input', updatePrice);
+        demandSlider.addEventListener('input', updatePrice);
+
+        // Initial calculation
+        updatePrice();
+    </script>
+</body>
+</html>
