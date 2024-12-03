@@ -96,6 +96,75 @@
             </div>
         </div>
     </div>
+    <div class="voice-activation">
+  <p id="status-text">Say "Hello" to activate voice commands.</p>
+</div>
+
+<script>
+  const statusText = document.getElementById('status-text');
+
+  // Initialize Speech Recognition
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = new SpeechRecognition();
+
+  recognition.onstart = function () {
+    statusText.textContent = "Listening for 'hello'...";
+  };
+
+  recognition.onspeechend = function () {
+    recognition.stop();
+  };
+
+  recognition.onresult = function (event) {
+    const transcript = event.results[0][0].transcript.toLowerCase();
+
+    if (transcript.includes('hello')) {
+      welcomeUser();
+    } else {
+      statusText.textContent = "Did not detect 'hello'. Please try again.";
+    }
+  };
+
+  recognition.onerror = function (event) {
+    statusText.textContent = `Error occurred: ${event.error}`;
+  };
+
+  function welcomeUser() {
+    statusText.textContent = "Hello! How can I assist you today?";
+    listenForCommand();
+  }
+
+  function listenForCommand() {
+    recognition.start();
+    recognition.onstart = function () {
+      statusText.textContent = "I'm listening. Please tell me what you need.";
+    };
+
+    recognition.onresult = function (event) {
+      const command = event.results[0][0].transcript.toLowerCase();
+      handleCommand(command);
+    };
+  }
+
+  function handleCommand(command) {
+    if (command.includes('home')) {
+      statusText.textContent = "Redirecting to Home...";
+      window.location.href = 'home.html';
+    } else if (command.includes('about')) {
+      statusText.textContent = "Redirecting to About page...";
+      window.location.href = 'about.html';
+    } else if (command.includes('contact')) {
+      statusText.textContent = "Redirecting to Contact page...";
+      window.location.href = 'contact.html';
+    } else {
+      statusText.textContent = `I didn't understand "${command}". Please try again.`;
+    }
+  }
+
+  // Start initial listening
+  recognition.start();
+</script>
+
 
     <!-- Gamification Div -->
     <div class="gamification-panel" id="gamification-panel">
