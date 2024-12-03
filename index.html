@@ -97,7 +97,7 @@
         </div>
     </div>
 <div class="voice-activation">
-  <p id="status-text">Say "Hello" to activate voice commands.</p>
+  <p id="status-text">Say "Hi" to activate voice commands.</p>
 </div>
 
 <script>
@@ -114,7 +114,7 @@
   }
 
   recognition.onstart = function () {
-    statusText.textContent = "Listening for 'hello'...";
+    statusText.textContent = "Listening for 'hi'...";
   };
 
   recognition.onspeechend = function () {
@@ -124,10 +124,10 @@
   recognition.onresult = function (event) {
     const transcript = event.results[0][0].transcript.toLowerCase();
 
-    if (transcript.includes('hello')) {
+    if (transcript.includes('hi')) {
       welcomeUser();
     } else {
-      speak("I did not hear hello. Please try again.");
+      speak("I did not hear hi. Please try again.");
     }
   };
 
@@ -155,7 +155,7 @@
   function handleCommand(command) {
     if (command.includes('home')) {
       speak("Redirecting to the Home page.");
-      window.location.href = 'home.html';
+      window.location.href = 'index.html';
     } else if (command.includes('about')) {
       speak("Redirecting to the About page.");
       window.location.href = 'about.html';
